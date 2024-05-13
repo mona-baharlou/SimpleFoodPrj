@@ -25,6 +25,7 @@
                 app:tint="@color/white"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:contentDescription="@string/add"
                 android:layout_gravity="end|center_vertical"
                 app:srcCompat="@drawable/ic_add" />
 
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:fontFamily="@font/sans_bold"
-                android:text="Food App"
+                android:text="@string/food_app"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </FrameLayout>
@@ -42,7 +43,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Find food ..."
+            android:inputType="text"
+            android:hint="@string/find_food"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="8dp"
             android:layout_marginStart="12dp"
@@ -59,7 +61,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recycler_main"/>
+
+        android:id="@+id/recycler_main"
+        tools:listitem="@layout/item_food"/>
 
 
 </LinearLayout>
