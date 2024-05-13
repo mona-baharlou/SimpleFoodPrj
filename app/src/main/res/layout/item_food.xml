@@ -11,7 +11,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/item_img_main"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +20,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/item_txt_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -29,41 +29,41 @@
         android:text="Fusha Asian"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/item_img_main"
+        app:layout_constraintTop_toTopOf="@+id/item_img_main" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/item_txt_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:text="Asian Sushi"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/item_img_main"
+        app:layout_constraintTop_toBottomOf="@+id/item_txt_subject" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/item_txt_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="$12 vip"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toEndOf="@+id/item_img_main"
+        app:layout_constraintTop_toBottomOf="@+id/item_txt_city" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/item_txt_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="1.2 miles from you"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintStart_toEndOf="@+id/item_img_main"
+        app:layout_constraintTop_toBottomOf="@+id/item_txt_price" />
 
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/item_rating_main"
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,13 +75,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/item_txt_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="(90 Ratings)"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/ratingBar"
-        app:layout_constraintStart_toStartOf="@+id/ratingBar"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+        app:layout_constraintEnd_toEndOf="@id/item_rating_main"
+        app:layout_constraintStart_toStartOf="@+id/item_rating_main"
+        app:layout_constraintTop_toBottomOf="@+id/item_rating_main" />
 </androidx.constraintlayout.widget.ConstraintLayout>
