@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" >@color/orange</item>
 
         <item name="fontFamily">@font/sans_regular</item>
+        <item name="colorSurface">@color/white</item>
     </style>
 
     <style name="Theme.SimpleFoodPrj" parent="Base.Theme.SimpleFoodPrj" />
