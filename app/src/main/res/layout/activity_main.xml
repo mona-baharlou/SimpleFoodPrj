@@ -22,6 +22,7 @@
             android:paddingEnd="12dp">
 
             <ImageView
+                android:id="@+id/btn_add_new_food"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="end|center_vertical"

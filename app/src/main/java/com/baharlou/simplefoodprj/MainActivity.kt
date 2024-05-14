@@ -2,10 +2,11 @@ package com.baharlou.simplefoodprj
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.baharlou.simplefoodprj.databinding.ActivityMainBinding
+import com.baharlou.simplefoodprj.databinding.DialogAddNewItemBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +19,28 @@ class MainActivity : AppCompatActivity() {
 
 
         setListToAdapter()
+
+       // buttonClicks()
+
+
+
+    }
+
+    private fun buttonClicks() {
+
+        binding.btnAddNewFood.setOnClickListener {
+            addItemToList()
+        }
+    }
+
+    private fun addItemToList() {
+        val dialog = AlertDialog.Builder(this)
+
+        val view = DialogAddNewItemBinding.inflate(layoutInflater).root
+        dialog.setView(view)
+        dialog.setCancelable(true)
+        dialog.create()
+        dialog.show()
 
     }
 
