@@ -29,7 +29,7 @@ class FoodAdapter(private val data: ArrayList<Food>, private val context: Contex
             txtCity.text = data[position].txtCity
             txtDistance.text = "${data[position].txtDistance} miles from you"
             txtPrice.text = "$${data[position].txtPrice}vip"
-            txtRating.text ="( " + data[position].numOfRating.toString() +" ratings )"
+            txtRating.text = "( " + data[position].numOfRating.toString() + " ratings )"
             ratingBar.rating = data[position].rating
 
             Glide
@@ -53,6 +53,12 @@ class FoodAdapter(private val data: ArrayList<Food>, private val context: Contex
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         holder.bindData(position)
+    }
+
+    fun addFood(newFood: Food) {
+        //add food to list
+        data.add(0, newFood)
+        notifyItemInserted(0)
     }
 
 }

@@ -2,51 +2,35 @@ package com.baharlou.simplefoodprj
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.baharlou.simplefoodprj.databinding.ActivityMainBinding
 import com.baharlou.simplefoodprj.databinding.DialogAddNewItemBinding
+import java.util.Random
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    lateinit var myAdapter: FoodAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val foodList = setList()
 
-        setListToAdapter()
+        setListToAdapter(foodList)
 
-       // buttonClicks()
+        buttonClicks(foodList)
 
-
-
-    }
-
-    private fun buttonClicks() {
-
-        binding.btnAddNewFood.setOnClickListener {
-            addItemToList()
-        }
-    }
-
-    private fun addItemToList() {
-        val dialog = AlertDialog.Builder(this)
-
-        val view = DialogAddNewItemBinding.inflate(layoutInflater).root
-        dialog.setView(view)
-        dialog.setCancelable(true)
-        dialog.create()
-        dialog.show()
 
     }
 
-    private fun setListToAdapter() {
-
-        val foodList = arrayListOf(
+    private fun setList(): ArrayList<Food> {
+        return arrayListOf(
             Food(
                 "Hamburger",
                 "15",
@@ -156,8 +140,71 @@ class MainActivity : AppCompatActivity() {
                 2.5f
             ),
         )
+    }
 
-        val myAdapter = FoodAdapter(foodList, this)
+    private fun buttonClicks(foodList: ArrayList<Food>) {
+
+        binding.btnAddNewFood.setOnClickListener {
+            addItemToList(foodList)
+        }
+    }
+
+    private fun addItemToList(foodList: ArrayList<Food>) {
+        val dialog = AlertDialog.Builder(this).create()
+
+        val dialogBinding = DialogAddNewItemBinding.inflate(layoutInflater)
+        dialog.setView(dialogBinding.root)
+        dialog.setCancelable(true)
+
+        dialog.show()
+
+        dialogBinding.dialogBtnDone.setOnClickListener {
+            addItemToRecyclerView(dialogBinding, foodList, dialog)
+        }
+
+    }
+
+    private fun addItemToRecyclerView(
+        dialogBinding: DialogAddNewItemBinding,
+        foodList: ArrayList<Food>, dialog: AlertDialog
+    ) {
+        if (dialogBinding.dialogEdtName.length() > 0 && dialogBinding.dialogEdtCity.length() > 0 &&
+            dialogBinding.dialogEdtPrice.length() > 0 && dialogBinding.dialogEdtDistance.length() > 0
+        ) {
+            val txtName = dialogBinding.dialogEdtName.text.toString()
+            val txtPrice = dialogBinding.dialogEdtPrice.text.toString()
+            val txtCity = dialogBinding.dialogEdtCity.text.toString()
+            val txtDistance = dialogBinding.dialogEdtDistance.text.toString()
+
+            val txtRatingNum: Int = (1..150).random()
+            val ratingBarStart: Float = (1..5).random().toFloat()
+
+            val randomforUrl = (0 until 12).random()
+            val picUrl = foodList[randomforUrl].imgUrl
+
+            val newFood =
+                Food(txtName, txtPrice, txtDistance, txtCity, picUrl, txtRatingNum, ratingBarStart)
+
+
+            myAdapter.addFood(newFood)
+            dialog.dismiss()
+            binding.recyclerMain.scrollToPosition(0)
+
+            //random float number
+            /*val min = 0f
+            val max = 5f
+            val rand = min + Random().nextFloat() * (max - min)*/
+
+        } else {
+            Toast.makeText(this, "Please enter reuired values", Toast.LENGTH_SHORT).show()
+
+        }
+
+    }
+
+    private fun setListToAdapter(foodList: ArrayList<Food>) {
+
+         myAdapter = FoodAdapter(foodList, this)
 
         binding.recyclerMain.adapter = myAdapter
         binding.recyclerMain.layoutManager = LinearLayoutManager(

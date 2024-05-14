@@ -8,7 +8,7 @@ data class Food(
     val txtCity:String,
     val imgUrl:String,
     val numOfRating:Int,
-    val rating:Float,
+    val rating:Float
 
     //val txtRate:String,
 
