@@ -135,6 +135,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val myAdapter = FoodAdapter(foodList, this)
+
         binding.recyclerMain.adapter = myAdapter
         binding.recyclerMain.layoutManager = LinearLayoutManager(
             this,

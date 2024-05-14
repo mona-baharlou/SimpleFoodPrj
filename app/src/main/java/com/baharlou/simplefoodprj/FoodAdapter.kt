@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
-class FoodAdapter(private val data: List<Food>, private val context: Context) :
+class FoodAdapter(private val data: ArrayList<Food>, private val context: Context) :
     RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,9 +27,9 @@ class FoodAdapter(private val data: List<Food>, private val context: Context) :
 
             txtSubject.text = data[position].txtSubject
             txtCity.text = data[position].txtCity
-            txtDistance.text = data[position].txtDistance
-            txtPrice.text = data[position].txtPrice
-            txtRating.text = data[position].txtRate
+            txtDistance.text = "${data[position].txtDistance} miles from you"
+            txtPrice.text = "$${data[position].txtPrice}vip"
+            txtRating.text ="( " + data[position].numOfRating.toString() +" ratings )"
             ratingBar.rating = data[position].rating
 
             Glide
