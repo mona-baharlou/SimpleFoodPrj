@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.baharlou.simplefoodprj.databinding.ItemFoodBinding
 import com.bumptech.glide.Glide
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
@@ -15,10 +16,38 @@ class FoodAdapter(
     private val data: ArrayList<Food>,
     private val context: Context,
     private val foodEvent: FoodEvent
-) :
-    RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
-    inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    //use viewBinding
+    inner class FoodViewHolder(private val binding: ItemFoodBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bindData(position: Int) {
+
+            binding.itemTxtSubject.text = data[position].txtSubject
+            binding.itemTxtCity.text = data[position].txtCity
+            binding.itemTxtDistance.text = "${data[position].txtDistance} miles from you"
+            binding.itemTxtPrice.text = "$${data[position].txtPrice} vip"
+            binding.itemTxtRating.text = "( " + data[position].numOfRating.toString() + " ratings )"
+            binding.itemRatingMain.rating = data[position].rating
+
+            Glide
+                .with(context)
+                .load(data[position].imgUrl)
+                .transform(RoundedCornersTransformation(16, 4))
+                .into(binding.itemImgMain)
+
+            itemView.setOnClickListener {
+                foodEvent.onFoodClicked(data[adapterPosition], adapterPosition)
+            }
+
+            itemView.setOnLongClickListener {
+                foodEvent.onFoodLongClicked(data[adapterPosition], adapterPosition)
+                true
+            }
+        }
+    }
+
+    /*inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgMain = itemView.findViewById<ImageView>(R.id.item_img_main)
         val txtSubject = itemView.findViewById<TextView>(R.id.item_txt_subject)
         val txtCity = itemView.findViewById<TextView>(R.id.item_txt_city)
@@ -51,11 +80,14 @@ class FoodAdapter(
                 true
             }
         }
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_food, parent, false)
-        return FoodViewHolder(view)
+        // val view = LayoutInflater.from(parent.context).inflate(R.layout.item_food, parent, false)
+        //return FoodViewHolder(view)
+
+        val binding = ItemFoodBinding.inflate(LayoutInflater.from(parent.context))
+        return FoodViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
