@@ -86,7 +86,7 @@ class FoodAdapter(
         // val view = LayoutInflater.from(parent.context).inflate(R.layout.item_food, parent, false)
         //return FoodViewHolder(view)
 
-        val binding = ItemFoodBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ItemFoodBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return FoodViewHolder(binding)
     }
 
