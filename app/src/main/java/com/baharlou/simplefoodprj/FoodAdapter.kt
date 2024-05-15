@@ -84,6 +84,13 @@ class FoodAdapter(
         notifyItemChanged(position)
     }
 
+    fun setData(newList: ArrayList<Food>) {
+        //set new data to list
+        data.clear()
+        data.addAll(newList)
+        notifyDataSetChanged()
+    }
+
     interface FoodEvent {
         fun onFoodClicked(food: Food, position: Int)
         fun onFoodLongClicked(food: Food, position: Int)

@@ -2,8 +2,10 @@ package com.baharlou.simplefoodprj
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.baharlou.simplefoodprj.databinding.ActivityMainBinding
@@ -14,15 +16,15 @@ import java.util.Random
 
 class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
-    lateinit var binding: ActivityMainBinding
-    lateinit var myAdapter: FoodAdapter
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var myAdapter: FoodAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val foodList = setList()
+        val foodList = createList()
 
         setListToAdapter(foodList)
 
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     }
 
-    private fun setList(): ArrayList<Food> {
+    private fun createList(): ArrayList<Food> {
         return arrayListOf(
             Food(
                 "Hamburger",
@@ -149,7 +151,28 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         binding.btnAddNewFood.setOnClickListener {
             addItemToList(foodList)
         }
+
+        binding.edtSearch.addTextChangedListener {
+            searchFood(it)
+        }
+
     }
+
+    private fun searchFood(searchText: Editable?) {
+        if (searchText!!.isNotEmpty()) {
+            //filter data
+            val cloneList = createList().clone() as ArrayList<Food>
+            val filteredList = cloneList.filter { foodItem ->
+                foodItem.txtSubject.contains(searchText)
+            }
+            myAdapter.setData(filteredList as ArrayList<Food>)
+
+        } else {
+            //show all data
+            myAdapter.setData(createList().clone() as ArrayList<Food>)
+        }
+    }
+
 
     private fun addItemToList(foodList: ArrayList<Food>) {
         val dialog = AlertDialog.Builder(this).create()
