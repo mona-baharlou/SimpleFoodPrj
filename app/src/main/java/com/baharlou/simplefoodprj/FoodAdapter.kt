@@ -43,7 +43,7 @@ class FoodAdapter(
                 .into(imgMain)
 
             itemView.setOnClickListener {
-                foodEvent.onFoodClicked()
+                foodEvent.onFoodClicked(data[adapterPosition], adapterPosition)
             }
 
             itemView.setOnLongClickListener {
@@ -79,8 +79,13 @@ class FoodAdapter(
 
     }
 
+    fun updateFood(newFood: Food, position: Int) {
+        data[position] = newFood
+        notifyItemChanged(position)
+    }
+
     interface FoodEvent {
-        fun onFoodClicked()
+        fun onFoodClicked(food: Food, position: Int)
         fun onFoodLongClicked(food: Food, position: Int)
     }
 

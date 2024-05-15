@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.baharlou.simplefoodprj.databinding.ActivityMainBinding
 import com.baharlou.simplefoodprj.databinding.DialogAddNewItemBinding
 import com.baharlou.simplefoodprj.databinding.DialogDeleteItemBinding
+import com.baharlou.simplefoodprj.databinding.DialogUpdateItemBinding
 import java.util.Random
 
 class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
@@ -216,7 +217,48 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     }
 
-    override fun onFoodClicked() {
+    override fun onFoodClicked(food: Food, position: Int) {
+        val dialog = AlertDialog.Builder(this).create()
+        val updateDialogBinding = DialogUpdateItemBinding.inflate(layoutInflater)
+
+        dialog.setView(updateDialogBinding.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        //set data to view
+        updateDialogBinding.dialogEdtName.setText(food.txtSubject)
+        updateDialogBinding.dialogEdtCity.setText(food.txtCity)
+        updateDialogBinding.dialogEdtPrice.setText(food.txtPrice)
+        updateDialogBinding.dialogEdtDistance.setText(food.txtDistance)
+
+        updateDialogBinding.dialogBtnCancel.setOnClickListener { dialog.dismiss() }
+
+        updateDialogBinding.dialogUpdateBtnDone.setOnClickListener {
+            if (updateDialogBinding.dialogEdtName.length() > 0 && updateDialogBinding.dialogEdtCity.length() > 0 &&
+                updateDialogBinding.dialogEdtPrice.length() > 0 && updateDialogBinding.dialogEdtDistance.length() > 0
+            ) {
+
+                val txtName = updateDialogBinding.dialogEdtName.text.toString()
+                val txtPrice = updateDialogBinding.dialogEdtPrice.text.toString()
+                val txtCity = updateDialogBinding.dialogEdtCity.text.toString()
+                val txtDistance = updateDialogBinding.dialogEdtDistance.text.toString()
+
+                val newFood = Food(
+                    txtName,
+                    txtPrice,
+                    txtDistance,
+                    txtCity,
+                    food.imgUrl,
+                    food.numOfRating,
+                    food.rating
+                )
+                myAdapter.updateFood(newFood, position)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
     }
 
