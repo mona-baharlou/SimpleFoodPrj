@@ -11,7 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
-class FoodAdapter(private val data: ArrayList<Food>, private val context: Context) :
+class FoodAdapter(
+    private val data: ArrayList<Food>,
+    private val context: Context,
+    private val foodEvent: FoodEvent
+) :
     RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,7 +32,7 @@ class FoodAdapter(private val data: ArrayList<Food>, private val context: Contex
             txtSubject.text = data[position].txtSubject
             txtCity.text = data[position].txtCity
             txtDistance.text = "${data[position].txtDistance} miles from you"
-            txtPrice.text = "$${data[position].txtPrice}vip"
+            txtPrice.text = "$${data[position].txtPrice} vip"
             txtRating.text = "( " + data[position].numOfRating.toString() + " ratings )"
             ratingBar.rating = data[position].rating
 
@@ -38,7 +42,14 @@ class FoodAdapter(private val data: ArrayList<Food>, private val context: Contex
                 .transform(RoundedCornersTransformation(16, 4))
                 .into(imgMain)
 
+            itemView.setOnClickListener {
+                foodEvent.onFoodClicked()
+            }
 
+            itemView.setOnLongClickListener {
+                foodEvent.onFoodLongClicked(data[position], adapterPosition)
+                true
+            }
         }
     }
 
@@ -59,6 +70,18 @@ class FoodAdapter(private val data: ArrayList<Food>, private val context: Contex
         //add food to list
         data.add(0, newFood)
         notifyItemInserted(0)
+    }
+
+    fun deleteFood(oldFood: Food, oldPosition: Int) {
+
+        data.remove(oldFood)
+        notifyItemRemoved(oldPosition)
+
+    }
+
+    interface FoodEvent {
+        fun onFoodClicked()
+        fun onFoodLongClicked(food: Food, position: Int)
     }
 
 }

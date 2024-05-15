@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.baharlou.simplefoodprj.databinding.ActivityMainBinding
 import com.baharlou.simplefoodprj.databinding.DialogAddNewItemBinding
+import com.baharlou.simplefoodprj.databinding.DialogDeleteItemBinding
 import java.util.Random
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     lateinit var binding: ActivityMainBinding
     lateinit var myAdapter: FoodAdapter
@@ -204,7 +205,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListToAdapter(foodList: ArrayList<Food>) {
 
-         myAdapter = FoodAdapter(foodList, this)
+        myAdapter = FoodAdapter(foodList, this, this)
 
         binding.recyclerMain.adapter = myAdapter
         binding.recyclerMain.layoutManager = LinearLayoutManager(
@@ -213,5 +214,28 @@ class MainActivity : AppCompatActivity() {
         )
 
 
+    }
+
+    override fun onFoodClicked() {
+
+    }
+
+    override fun onFoodLongClicked(food: Food, position: Int) {
+        val dialog = AlertDialog.Builder(this).create()
+
+        val dialogDelete = DialogDeleteItemBinding.inflate(layoutInflater)
+        dialog.setView(dialogDelete.root)
+
+        dialog.setCancelable(true)
+        dialog.show()
+
+        dialogDelete.btnSubmit.setOnClickListener {
+            myAdapter.deleteFood(food, position)
+            dialog.dismiss()
+        }
+
+        dialogDelete.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 }
