@@ -205,7 +205,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     private fun setListToAdapter(foodList: ArrayList<Food>) {
 
-        myAdapter = FoodAdapter(foodList, this, this)
+        myAdapter = FoodAdapter(foodList.clone() as ArrayList<Food>, this, this)
 
         binding.recyclerMain.adapter = myAdapter
         binding.recyclerMain.layoutManager = LinearLayoutManager(

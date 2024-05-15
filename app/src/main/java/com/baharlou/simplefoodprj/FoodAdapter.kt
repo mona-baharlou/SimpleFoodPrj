@@ -47,7 +47,7 @@ class FoodAdapter(
             }
 
             itemView.setOnLongClickListener {
-                foodEvent.onFoodLongClicked(data[position], adapterPosition)
+                foodEvent.onFoodLongClicked(data[adapterPosition], adapterPosition)
                 true
             }
         }
