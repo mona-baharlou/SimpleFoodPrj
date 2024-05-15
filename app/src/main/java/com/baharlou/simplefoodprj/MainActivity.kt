@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
             val filteredList = cloneList.filter { foodItem ->
                 foodItem.txtSubject.contains(searchText)
             }
-            myAdapter.setData(filteredList as ArrayList<Food>)
+            myAdapter.setData(ArrayList(filteredList))
 
         } else {
             //show all data
