@@ -85,8 +85,8 @@ class FoodAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         // val view = LayoutInflater.from(parent.context).inflate(R.layout.item_food, parent, false)
         //return FoodViewHolder(view)
-
-        val binding = ItemFoodBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+//185.51.200.2, 178.22.122.100
+        val binding = ItemFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FoodViewHolder(binding)
     }
 
