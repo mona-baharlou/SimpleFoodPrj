@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         if (sharedPref.getBoolean("firstRun", true)) {
             firstRun()
             sharedPref.edit().putBoolean("firstRun", false).apply()
-             //showAllData()
+            //showAllData()
         }
 
         showAllData()
@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         }
 
         binding.btnAddNewFood.setOnClickListener {
-            //  addItemToList(foodList)
+            addItemToList()
         }
 
         binding.edtSearch.addTextChangedListener {
@@ -222,66 +222,79 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
     }
 
     private fun searchFood(searchText: Editable?) {
-        /*if (searchText!!.isNotEmpty()) {
+        if (searchText!!.isNotEmpty()) {
             //filter data
-            val cloneList = createList().clone() as ArrayList<Food>
+            /*val cloneList = createList().clone() as ArrayList<Food>
             val filteredList = cloneList.filter { foodItem ->
                 foodItem.txtSubject.contains(searchText)
             }
-            myAdapter.setData(ArrayList(filteredList))
+            myAdapter.setData(ArrayList(filteredList))*/
 
         } else {
             //show all data
-            myAdapter.setData(createList().clone() as ArrayList<Food>)
-        }*/
+            //myAdapter.setData(createList().clone() as ArrayList<Food>)
+        }
     }
 
 
-    /* private fun addItemToList(foodList: ArrayList<Food>) {
-         val dialog = AlertDialog.Builder(this).create()
+    private fun addItemToList() {
+        val dialog = AlertDialog.Builder(this).create()
 
-         val dialogBinding = DialogAddNewItemBinding.inflate(layoutInflater)
-         dialog.setView(dialogBinding.root)
-         dialog.setCancelable(true)
+        val dialogBinding = DialogAddNewItemBinding.inflate(layoutInflater)
+        dialog.setView(dialogBinding.root)
+        dialog.setCancelable(true)
 
-         dialog.show()
+        dialog.show()
 
-         dialogBinding.dialogBtnDone.setOnClickListener {
-             addItemToRecyclerView(dialogBinding, foodList, dialog)
-         }
+        dialogBinding.dialogBtnDone.setOnClickListener {
+            addItemToRecyclerView(dialogBinding, dialog)
+        }
 
-     }
- */
-    /*  private fun addItemToRecyclerView(
-          dialogBinding: DialogAddNewItemBinding,
-          foodList: ArrayList<Food>, dialog: AlertDialog
-      ) {
-          if (dialogBinding.dialogEdtName.length() > 0 && dialogBinding.dialogEdtCity.length() > 0 &&
-              dialogBinding.dialogEdtPrice.length() > 0 && dialogBinding.dialogEdtDistance.length() > 0
-          ) {
-              val txtName = dialogBinding.dialogEdtName.text.toString()
-              val txtPrice = dialogBinding.dialogEdtPrice.text.toString()
-              val txtCity = dialogBinding.dialogEdtCity.text.toString()
-              val txtDistance = dialogBinding.dialogEdtDistance.text.toString()
+    }
 
-              val txtRatingNum: Int = (1..150).random()
-              val ratingBarStart: Float = (1..5).random().toFloat()
+    private fun addItemToRecyclerView(
+        dialogBinding: DialogAddNewItemBinding,
+        dialog: AlertDialog
+    ) {
+        if (dialogBinding.dialogEdtName.length() > 0 && dialogBinding.dialogEdtCity.length() > 0 &&
+            dialogBinding.dialogEdtPrice.length() > 0 && dialogBinding.dialogEdtDistance.length() > 0
+        ) {
+            val txtName = dialogBinding.dialogEdtName.text.toString()
+            val txtPrice = dialogBinding.dialogEdtPrice.text.toString()
+            val txtCity = dialogBinding.dialogEdtCity.text.toString()
+            val txtDistance = dialogBinding.dialogEdtDistance.text.toString()
 
-              val randomforUrl = (0 until 12).random()
-              val picUrl = foodList[randomforUrl].imgUrl
+            val txtRatingNum: Int = (1..150).random()
+            val ratingBarStart: Float = (1..5).random().toFloat()
 
-              val newFood =
-                  Food(txtName, txtPrice, txtDistance, txtCity, picUrl, txtRatingNum, ratingBarStart)
+            val randomforUrl = (1 until 12).random()
+            val picUrl =
+                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food$randomforUrl.jpg"
+            val newFood =
+                Food(
+                    txtSubject = txtName,
+                    txtPrice = txtPrice,
+                    txtDistance = txtDistance,
+                    txtCity = txtCity,
+                    imgUrl = picUrl,
+                    numOfRating = txtRatingNum,
+                    rating = ratingBarStart
+                )
 
 
-              myAdapter.addFood(newFood)
-              dialog.dismiss()
-              binding.recyclerMain.scrollToPosition(0)
+            myAdapter.addFood(newFood)
 
-              //random float number
-              *//*val min = 0f
-            val max = 5f
-            val rand = min + Random().nextFloat() * (max - min)*//*
+            Thread {
+                foodDao.insertFood(newFood)
+            }.start()
+
+            dialog.dismiss()
+            binding.recyclerMain.scrollToPosition(0)
+
+            //random float number
+            /*val min = 0f
+          val max = 5f
+          val rand = min + Random().nextFloat() * (max - min)*/
 
         } else {
             Toast.makeText(this, "Please enter reuired values", Toast.LENGTH_SHORT).show()
@@ -289,7 +302,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         }
 
     }
-*/
+
     private fun setListToAdapter(foodList: List<Food>) {
 
         myAdapter = FoodAdapter(ArrayList(foodList), this, this)
@@ -341,7 +354,8 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
                 myAdapter.updateFood(newFood, position)
                 dialog.dismiss()
             } else {
-                Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
