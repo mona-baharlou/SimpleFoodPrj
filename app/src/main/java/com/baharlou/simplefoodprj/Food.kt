@@ -1,6 +1,8 @@
 package com.baharlou.simplefoodprj
 
+import androidx.room.Entity
 
+@Entity
 data class Food(
     val txtSubject:String,
     val txtPrice:String,
@@ -9,8 +11,4 @@ data class Food(
     val imgUrl:String,
     val numOfRating:Int,
     val rating:Float
-
-    //val txtRate:String,
-
-
 )
