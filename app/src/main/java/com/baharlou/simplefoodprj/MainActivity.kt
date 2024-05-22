@@ -12,7 +12,7 @@ import com.baharlou.simplefoodprj.databinding.ActivityMainBinding
 import com.baharlou.simplefoodprj.databinding.DialogAddNewItemBinding
 import com.baharlou.simplefoodprj.databinding.DialogDeleteItemBinding
 import com.baharlou.simplefoodprj.databinding.DialogUpdateItemBinding
-import java.util.Random
+import com.baharlou.simplefoodprj.room.Food
 
 class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
@@ -36,22 +36,22 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
     private fun createList(): ArrayList<Food> {
         return arrayListOf(
             Food(
-                "Hamburger",
-                "15",
-                "3",
-                "Isfahan, Iran",
-                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food1.jpg",
-                20,
-                4.5f
+                txtSubject = "Hamburger",
+                txtPrice = "15",
+                txtDistance = "3",
+                txtCity = "Isfahan, Iran",
+                imgUrl = "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food1.jpg",
+                numOfRating = 20,
+                rating = 4.5f
             ),
             Food(
-                "Grilled fish",
-                "20",
-                "2.1",
-                "Tehran, Iran",
-                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food2.jpg",
-                10,
-                4f
+                txtSubject = "Grilled fish",
+                txtPrice = "20",
+                txtDistance = "2.1",
+                txtCity = "Tehran, Iran",
+                imgUrl = "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food2.jpg",
+                numOfRating = 10,
+                rating = 4f
             ),
             Food(
                 "Lasania",
