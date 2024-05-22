@@ -13,11 +13,10 @@ abstract class FoodDatabase : RoomDatabase() {
     companion object {
         private var database: FoodDatabase? = null
 
+        //singleton
         fun getDatabase(context: Context): FoodDatabase {
-            var instance = database
-
-            if (instance == null) {
-                instance = Room.databaseBuilder(
+            if (database == null) {
+                database = Room.databaseBuilder(
                     context.applicationContext,
                     FoodDatabase::class.java,
                     "foodDatabase.db"
@@ -25,7 +24,7 @@ abstract class FoodDatabase : RoomDatabase() {
                 ).build()
             }
 
-            return instance
+            return database!!
         }
     }
 

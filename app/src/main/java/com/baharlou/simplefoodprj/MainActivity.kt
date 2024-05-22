@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
                 imgUrl = "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food2.jpg",
                 numOfRating = 10,
                 rating = 4f
-            ),
+            )/*,
             Food(
                 "Lasania",
                 "40",
@@ -142,14 +142,14 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
                 "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food12.jpg",
                 35,
                 2.5f
-            ),
+            ),*/
         )
     }
 
     private fun buttonClicks(foodList: ArrayList<Food>) {
 
         binding.btnAddNewFood.setOnClickListener {
-            addItemToList(foodList)
+          //  addItemToList(foodList)
         }
 
         binding.edtSearch.addTextChangedListener {
@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
     }
 
 
-    private fun addItemToList(foodList: ArrayList<Food>) {
+   /* private fun addItemToList(foodList: ArrayList<Food>) {
         val dialog = AlertDialog.Builder(this).create()
 
         val dialogBinding = DialogAddNewItemBinding.inflate(layoutInflater)
@@ -188,8 +188,8 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         }
 
     }
-
-    private fun addItemToRecyclerView(
+*/
+  /*  private fun addItemToRecyclerView(
         dialogBinding: DialogAddNewItemBinding,
         foodList: ArrayList<Food>, dialog: AlertDialog
     ) {
@@ -216,9 +216,9 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
             binding.recyclerMain.scrollToPosition(0)
 
             //random float number
-            /*val min = 0f
+            *//*val min = 0f
             val max = 5f
-            val rand = min + Random().nextFloat() * (max - min)*/
+            val rand = min + Random().nextFloat() * (max - min)*//*
 
         } else {
             Toast.makeText(this, "Please enter reuired values", Toast.LENGTH_SHORT).show()
@@ -226,7 +226,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         }
 
     }
-
+*/
     private fun setListToAdapter(foodList: ArrayList<Food>) {
 
         myAdapter = FoodAdapter(foodList.clone() as ArrayList<Food>, this, this)
@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     }
 
-    override fun onFoodClicked(food: Food, position: Int) {
+   /* override fun onFoodClicked(food: Food, position: Int) {
         val dialog = AlertDialog.Builder(this).create()
         val updateDialogBinding = DialogUpdateItemBinding.inflate(layoutInflater)
 
@@ -283,9 +283,9 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         }
 
 
-    }
+    }*/
 
-    override fun onFoodLongClicked(food: Food, position: Int) {
+   /* override fun onFoodLongClicked(food: Food, position: Int) {
         val dialog = AlertDialog.Builder(this).create()
 
         val dialogDelete = DialogDeleteItemBinding.inflate(layoutInflater)
@@ -302,5 +302,5 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         dialogDelete.btnCancel.setOnClickListener {
             dialog.dismiss()
         }
-    }
+    }*/
 }
