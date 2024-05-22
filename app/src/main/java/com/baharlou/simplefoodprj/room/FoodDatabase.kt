@@ -24,6 +24,8 @@ abstract class FoodDatabase : RoomDatabase() {
 
                 ).build()
             }
+
+            return instance
         }
     }
 
