@@ -3,17 +3,21 @@ package com.baharlou.simplefoodprj.room
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 
 @Dao
 interface FoodDao {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrUpdateFood(food: Food)
+
     @Insert
     fun insertFood(food: Food)
 
     @Insert
-    fun insertAllFood(data:List<Food>)
+    fun insertAllFood(data: List<Food>)
 
     @Update
     fun updateFood(food: Food)

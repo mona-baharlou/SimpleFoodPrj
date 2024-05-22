@@ -1,13 +1,13 @@
 package com.baharlou.simplefoodprj
 
+import android.R.attr.value
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +19,14 @@ import com.baharlou.simplefoodprj.room.Food
 import com.baharlou.simplefoodprj.room.FoodDao
 import com.baharlou.simplefoodprj.room.FoodDatabase
 
+
 class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var myAdapter: FoodAdapter
     private lateinit var foodDao: FoodDao
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var foodList: List<Food>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -177,11 +179,13 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     private fun showAllData() {
         try {
-            Thread {
-                val foodList = foodDao.getAllFoods()
-                setListToAdapter(foodList)
+            val t = Thread {
+                foodList = foodDao.getAllFoods()
             }
-                .start()
+            t.start()
+            t.join()
+            setListToAdapter(foodList)
+
         } catch (ex: Exception) {
             Toast.makeText(this, "${ex.message}", Toast.LENGTH_SHORT).show()
         }
@@ -206,16 +210,18 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         }
 
         binding.edtSearch.addTextChangedListener {
-            // searchFood(it)
+            searchFood(it)
         }
 
     }
 
     private fun removeAllFoods() {
         try {
-            Thread {
+            val t = Thread {
                 foodDao.deleteAllData()
-            }.start()
+            }
+            t.start()
+            t.join()
         } catch (ex: Exception) {
             Toast.makeText(this, "DELETE: ${ex.message}", Toast.LENGTH_LONG).show()
         }
@@ -223,6 +229,18 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
     private fun searchFood(searchText: Editable?) {
         if (searchText!!.isNotEmpty()) {
+
+            try {
+                val t = Thread {
+                    foodList = foodDao.searchFood(searchText.toString())
+                }
+
+                t.start() // spawn thread
+                t.join()// wait for thread to finish
+                myAdapter.setData(ArrayList(foodList))
+
+            } catch (ex: Exception) {
+            }
             //filter data
             /*val cloneList = createList().clone() as ArrayList<Food>
             val filteredList = cloneList.filter { foodItem ->
@@ -232,6 +250,12 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
         } else {
             //show all data
+            val ta = Thread {
+                foodList = foodDao.getAllFoods()
+            }
+            ta.start()
+            ta.join()
+            myAdapter.setData(foodList as ArrayList<Food>)
             //myAdapter.setData(createList().clone() as ArrayList<Food>)
         }
     }
@@ -285,7 +309,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
             myAdapter.addFood(newFood)
 
             Thread {
-                foodDao.insertFood(newFood)
+                foodDao.insertOrUpdateFood(newFood)
             }.start()
 
             dialog.dismiss()
@@ -352,7 +376,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
                     rating = food.rating
                 )
                 Thread {
-                    foodDao.updateFood(newFood)
+                    foodDao.insertOrUpdateFood(newFood)
                 }.start()
 
                 myAdapter.updateFood(newFood, position)
