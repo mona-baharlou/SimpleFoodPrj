@@ -18,8 +18,13 @@ interface FoodDao {
     @Delete
     fun deleteFood(food: Food)
 
+    @Query("DELETE FROM table_food")
+    fun deleteAllData()
+
     @Query("SELECT * FROM table_food")
     fun getAllFoods() : List<Food>
+
+
 
 
 }
