@@ -342,6 +342,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
                 val txtDistance = updateDialogBinding.dialogEdtDistance.text.toString()
 
                 val newFood = Food(
+                    id = food.id,
                     txtSubject = txtName,
                     txtPrice = txtPrice,
                     txtDistance = txtDistance,
@@ -350,7 +351,10 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
                     numOfRating = food.numOfRating,
                     rating = food.rating
                 )
-                foodDao.updateFood(newFood)
+                Thread {
+                    foodDao.updateFood(newFood)
+                }.start()
+
                 myAdapter.updateFood(newFood, position)
                 dialog.dismiss()
             } else {
