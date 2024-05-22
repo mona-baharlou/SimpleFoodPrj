@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         if (sharedPref.getBoolean("firstRun", true)) {
             firstRun()
             sharedPref.edit().putBoolean("firstRun", false).apply()
+            showAllData()
         }
 
         showAllData()
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
         // setListToAdapter(foodList)
 
-//        buttonClicks(foodList)
+        //buttonClicks(foodList)
+        buttonClicks()
 
 
     }
@@ -164,20 +166,34 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
             )
         )
         try {
-            foodDao.insertAllFood(list)
+            Thread {
+                foodDao.insertAllFood(list)
+            }
+                .start()
         } catch (ex: Exception) {
-            Log.d("FirstRun", "firstRun: insertAllFood ${ex.message}")
+            Toast.makeText(this, "${ex.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun showAllData() {
-        val foodList = foodDao.getAllFoods()
-        if (foodList.isNotEmpty())
-            setListToAdapter(foodList)
+        try {
+            Thread {
+                val foodList = foodDao.getAllFoods()
+                setListToAdapter(foodList)
+            }
+                .start()
+        } catch (ex: Exception) {
+            Toast.makeText(this, "${ex.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
-    private fun buttonClicks(foodList: ArrayList<Food>) {
+    //private fun buttonClicks(foodList: ArrayList<Food>) {
+    private fun buttonClicks() {
+
+        binding.btnRemoveAll.setOnClickListener {
+            removeAllFoods()
+        }
 
         binding.btnAddNewFood.setOnClickListener {
             //  addItemToList(foodList)
@@ -187,6 +203,12 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
             searchFood(it)
         }
 
+    }
+
+    private fun removeAllFoods() {
+        Thread {
+            foodDao.deleteAllData()
+        }.start()
     }
 
     private fun searchFood(searchText: Editable?) {
@@ -327,7 +349,9 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
 
         dialogDelete.btnSubmit.setOnClickListener {
             myAdapter.deleteFood(food, position)
-            foodDao.deleteFood(food)
+            Thread {
+                foodDao.deleteFood(food)
+            }.start()
             dialog.dismiss()
         }
 
