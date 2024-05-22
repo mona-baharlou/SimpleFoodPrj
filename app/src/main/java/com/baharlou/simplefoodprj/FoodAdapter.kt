@@ -88,7 +88,11 @@ class FoodAdapter(
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        try {
+            return data.size
+        } catch (ex: Exception) {
+            return 0
+        }
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {

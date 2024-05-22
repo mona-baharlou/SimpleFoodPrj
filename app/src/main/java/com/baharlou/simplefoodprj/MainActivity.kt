@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
     private lateinit var binding: ActivityMainBinding
     private lateinit var myAdapter: FoodAdapter
     private lateinit var foodDao: FoodDao
-    lateinit var sharedPref: SharedPreferences
+    private lateinit var sharedPref: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         if (sharedPref.getBoolean("firstRun", true)) {
             firstRun()
             sharedPref.edit().putBoolean("firstRun", false).apply()
-            showAllData()
+             //showAllData()
         }
 
         showAllData()
@@ -192,7 +192,13 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
     private fun buttonClicks() {
 
         binding.btnRemoveAll.setOnClickListener {
-            removeAllFoods()
+            try {
+                removeAllFoods()
+                showAllData()
+            } catch (ex: Exception) {
+                Toast.makeText(this, "BTN_CLICKED : ${ex.message}", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         binding.btnAddNewFood.setOnClickListener {
@@ -200,15 +206,19 @@ class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvent {
         }
 
         binding.edtSearch.addTextChangedListener {
-            searchFood(it)
+            // searchFood(it)
         }
 
     }
 
     private fun removeAllFoods() {
-        Thread {
-            foodDao.deleteAllData()
-        }.start()
+        try {
+            Thread {
+                foodDao.deleteAllData()
+            }.start()
+        } catch (ex: Exception) {
+            Toast.makeText(this, "DELETE: ${ex.message}", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun searchFood(searchText: Editable?) {
