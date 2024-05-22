@@ -24,9 +24,7 @@ interface FoodDao {
     @Query("SELECT * FROM table_food")
     fun getAllFoods() : List<Food>
 
-    @Query("SELECT * FROM table_food " +
-            "WHERE txtSubject like '%' || :filter || '%'")
-
+    @Query("SELECT * FROM table_food WHERE txtSubject like '%' || :filter || '%'")
     fun searchFood(filter: String) : List<Food>
 
 
